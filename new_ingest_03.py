@@ -22,7 +22,7 @@ def build_qa_chain(chunk_size: int = 1000, chunk_overlap: int = 50) -> Retrieval
     splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
     
     # Replace 'gpt-4-model-version' with the specific version of GPT-4 you wish to use, e.g., 'gpt-4-0613'
-    llm = OpenAI(model_name="gpt-4-model-version",
+    llm = OpenAI(model_name="gpt-4",
                  temperature=0.9,
                  max_tokens=256)  # Check the appropriate value for max_tokens for GPT-4
 
