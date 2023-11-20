@@ -1,15 +1,14 @@
 import os
 from time import perf_counter
 from langchain.document_loaders import PyPDFLoader
-from langchain.llms import OpenAI, VertexAI
+from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA
 from langchain.indexes import VectorstoreIndexCreator
-from langchain.text_splitter import CharacterTextSplitter, TokenTextSplitter
-from langchain.embeddings import OpenAIEmbeddings, VertexAIEmbeddings
+from langchain.text_splitter import CharacterTextSplitter
+from langchain.embeddings import OpenAIEmbeddings
 from langchain.vectorstores import Chroma
 
 DATA_FOLDER = './SOURCE_DOCUMENTS'
-
 
 def pdf_loader(data_folder=DATA_FOLDER):
     print([fn for fn in os.listdir(DATA_FOLDER) if fn.endswith('.pdf')])
@@ -18,25 +17,12 @@ def pdf_loader(data_folder=DATA_FOLDER):
     print(f'{len(loaders)} file loaded')
     return loaders
 
-
-def build_qa_chain(platform: str = 'openai', chunk_size: int = 1000, chunk_overlap: int = 50) -> RetrievalQA:
-# def build_qa_chain(platform: str = 'openai', chunk_size: int = 250, chunk_overlap: int = 50) -> RetrievalQA:
-    if platform == 'openai':
-        embedding = OpenAIEmbeddings()
-        splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        # splitter = CharacterTextSplitter(chunk_size=5000, chunk_overlap=0)
-        llm = OpenAI(model_name="text-davinci-003",
-                     temperature=0.9,
-                     max_tokens=256)
-    elif platform == 'palm':
-        embedding = VertexAIEmbeddings()
-        splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
-        llm = VertexAI(model_name="text-bison@001",
-                       project='<your own GCP project_id>',
-                       temperature=0.9,
-                       top_p=0,
-                       top_k=1,
-                       max_output_tokens=256)
+def build_qa_chain(chunk_size: int = 1000, chunk_overlap: int = 50) -> RetrievalQA:
+    embedding = OpenAIEmbeddings()
+    splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
+    llm = OpenAI(model_name="text-davinci-003",  # Replace with the latest model name if available
+                 temperature=0.9,
+                 max_tokens=256)
 
     loaders = pdf_loader()
     index = VectorstoreIndexCreator(
@@ -52,9 +38,8 @@ def build_qa_chain(platform: str = 'openai', chunk_size: int = 1000, chunk_overl
                                        return_source_documents=True,
                                        input_key="question")
 
-
 tick = perf_counter()
-qa_chain = build_qa_chain('openai', chunk_overlap=0)
+qa_chain = build_qa_chain(chunk_overlap=0)
 print(f'Time span for building index: {perf_counter() - tick}')
 
 # get reply to our questions
