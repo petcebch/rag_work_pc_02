@@ -19,8 +19,8 @@ def pdf_loader(data_folder=DATA_FOLDER):
     return loaders
 
 
-# def build_qa_chain(platform: str = 'openai', chunk_size: int = 1000, chunk_overlap: int = 50) -> RetrievalQA:
-def build_qa_chain(platform: str = 'openai', chunk_size: int = 250, chunk_overlap: int = 50) -> RetrievalQA:
+def build_qa_chain(platform: str = 'openai', chunk_size: int = 1000, chunk_overlap: int = 50) -> RetrievalQA:
+# def build_qa_chain(platform: str = 'openai', chunk_size: int = 250, chunk_overlap: int = 50) -> RetrievalQA:
     if platform == 'openai':
         embedding = OpenAIEmbeddings()
         splitter = CharacterTextSplitter.from_tiktoken_encoder(chunk_size=chunk_size, chunk_overlap=chunk_overlap)
