@@ -59,7 +59,6 @@ print(f'Time span for building index: {perf_counter() - tick}')
 
 # get reply to our questions
 tick = perf_counter()
-# result = qa_chain({'question': 'What is the difference between L1 and L2 regularization?', 'include_run_info': True})
 result = qa_chain({'question': 'What is the difference between Kaltbereich and Normalbereich?', 'include_run_info': True})
 
 print(f'Time span for query: {perf_counter() - tick}')
