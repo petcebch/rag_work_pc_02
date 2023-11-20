@@ -1,6 +1,7 @@
 import os
 from time import perf_counter
 from langchain.document_loaders import PyPDFLoader
+from langchain.chat_models import ChatOpenAI
 from langchain.llms import OpenAI
 from langchain.chains import RetrievalQA
 from langchain.indexes import VectorstoreIndexCreator
