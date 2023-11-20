@@ -46,7 +46,7 @@ print(f'Time span for building index: {perf_counter() - tick}')
 
 # get reply to our questions
 tick = perf_counter()
-result = qa_chain({'question': 'wie kann ich Quarzuhr einstellen?', 'include_run_info': True})
+result = qa_chain({'question': 'what is Covid-19 crystalization?', 'include_run_info': True})
 
 print(f'Time span for query: {perf_counter() - tick}')
 
